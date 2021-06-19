@@ -3,9 +3,13 @@ package com.example.quizapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -83,15 +87,42 @@ public class NewActivity extends AppCompatActivity {
         });
 
     }
+
+    private void showBottomSheet(){
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(NewActivity.this);
+        View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.score_bottom_sheet, (LinearLayout)findViewById(R.id.idLLScore));
+        TextView scoreTV = bottomSheetView.findViewById(R.id.idTVScore);
+        Button restartQuizBtn = bottomSheetView.findViewById(R.id.idBtnRestart);
+        scoreTV.setText("Your score is \n" + currentScore + "/10");
+        restartQuizBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentPos = random.nextInt(quizModelArrayList.size());
+                setDataToViews(currentPos);
+                questionAttempted = 1;
+                currentScore = 0;
+                bottomSheetDialog.dismiss();
+            }
+        });
+        bottomSheetDialog.setCancelable(false);
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+    }
+
     private void setDataToViews(int currentPos){
         questionNumberTV.setText("Questions Attempted : "+questionAttempted + "/10");
-        questionTV.setText(quizModelArrayList.get(currentPos).getQuestion());
-        option1Btn.setText(quizModelArrayList.get(currentPos).getOption1());
-        option2Btn.setText(quizModelArrayList.get(currentPos).getOption2());
-        option3Btn.setText(quizModelArrayList.get(currentPos).getOption3());
-        option4Btn.setText(quizModelArrayList.get(currentPos).getOption4());
-
-
+        if(questionAttempted == 10)
+        {
+            showBottomSheet();
+        }
+        else
+        {
+            questionTV.setText(quizModelArrayList.get(currentPos).getQuestion());
+            option1Btn.setText(quizModelArrayList.get(currentPos).getOption1());
+            option2Btn.setText(quizModelArrayList.get(currentPos).getOption2());
+            option3Btn.setText(quizModelArrayList.get(currentPos).getOption3());
+            option4Btn.setText(quizModelArrayList.get(currentPos).getOption4());
+        }
     }
     private void getQuizQuestion(ArrayList<QuizModel> quizModelArrayList) {
         quizModelArrayList.add(new QuizModel("How GFG is used?", "To solve DSA Problems", "To learn new languages","To learn Android", "All of the above", "All of the above"));
