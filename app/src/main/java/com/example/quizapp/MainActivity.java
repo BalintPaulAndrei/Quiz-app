@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 if(username.equals("user") && (password.equals("1234")))
                 {
                     Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), NewActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                     startActivity(intent);
                 }
                 else

@@ -43,7 +43,7 @@
             android:text="Option 1"
             android:textAllCaps="false"
             android:id="@+id/idBtnOption1"
-            android:background="@color/purple_200"/>
+            android:background="@color/color1"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:text="Option 2"
             android:textAllCaps="false"
             android:id="@+id/idBtnOption2"
-            android:background="@color/purple_200"/>
+            android:background="@color/color1"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             android:text="Option 3"
             android:textAllCaps="false"
             android:id="@+id/idBtnOption3"
-            android:background="@color/purple_200"/>
+            android:background="@color/color1"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:text="Option 4"
             android:textAllCaps="false"
             android:id="@+id/idBtnOption4"
-            android:background="@color/purple_200"/>
+            android:background="@color/color1"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.example.quizapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +94,7 @@ public class NewActivity extends AppCompatActivity {
         View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.score_bottom_sheet, (LinearLayout)findViewById(R.id.idLLScore));
         TextView scoreTV = bottomSheetView.findViewById(R.id.idTVScore);
         Button restartQuizBtn = bottomSheetView.findViewById(R.id.idBtnRestart);
+        Button menuBtn = bottomSheetView.findViewById(R.id.idBtnMenu);
         scoreTV.setText("Your score is \n" + currentScore + "/10");
         restartQuizBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +103,14 @@ public class NewActivity extends AppCompatActivity {
                 setDataToViews(currentPos);
                 questionAttempted = 1;
                 currentScore = 0;
+                bottomSheetDialog.dismiss();
+            }
+        });
+        menuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
                 bottomSheetDialog.dismiss();
             }
         });
