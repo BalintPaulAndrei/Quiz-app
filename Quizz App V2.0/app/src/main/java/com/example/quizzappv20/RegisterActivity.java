@@ -71,9 +71,17 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(RegisterActivity.this, "Error creating the account!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
+            }
+        });
+
+        mToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
     }
