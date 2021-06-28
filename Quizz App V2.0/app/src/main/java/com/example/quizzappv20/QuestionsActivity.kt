@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_questions.*
 
@@ -28,13 +29,21 @@ class QuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tv_option_two.setOnClickListener(this)
         tv_option_three.setOnClickListener(this)
         tv_option_four.setOnClickListener(this)
+
+        submit_button.setOnClickListener(this)
     }
 
     private fun setQuestion() {
-        mCurrentPosition = 1
+
         val question = mQuestionsList!![mCurrentPosition - 1]
 
         defaultOptionsView()
+
+        if(mCurrentPosition == mQuestionsList!!.size){
+            submit_button.text = "FINISH QUIZ"
+        }else{
+            submit_button.text = "SUBMIT"
+        }
 
         progressBar3.progress = mCurrentPosition
         tv_progress.text = "$mCurrentPosition" + "/" + progressBar3.max
@@ -75,6 +84,31 @@ class QuestionsActivity : AppCompatActivity(), View.OnClickListener {
             R.id.tv_option_four ->{
                 selectedOptionView(tv_option_four, 4)
             }
+            R.id.submit_button ->{
+               if(mSelectedOptionPosition == 0) {
+                   mCurrentPosition++
+                   when{
+                       mCurrentPosition <= mQuestionsList!!.size ->{
+                           setQuestion()
+                       }else ->{
+                           Toast.makeText(this, "Quiz completed!", Toast.LENGTH_SHORT).show()
+                       }
+                   }
+               }else{
+                   val question = mQuestionsList?.get(mCurrentPosition - 1)
+                   if(question!!.optionCorrect != mSelectedOptionPosition){
+                       answerView(mSelectedOptionPosition, R.drawable.wrong_textview_button_background)
+                   }
+                   answerView(question.optionCorrect, R.drawable.correct_textview_button_background)
+
+                   if(mCurrentPosition == mQuestionsList!!.size){
+                       submit_button.text = "FINISH QUIZ"
+                   }else{
+                       submit_button.text = "NEXT QUESTION"
+                   }
+                   mSelectedOptionPosition = 0;
+               }
+            }
         }
     }
 
@@ -86,5 +120,22 @@ class QuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(this, R.drawable.selected_textview_button)
 
+    }
+
+    private fun answerView(answer: Int, drawableView: Int) {
+        when(answer){
+            1 ->{
+                tv_option_one.background = ContextCompat.getDrawable(this, drawableView)
+            }
+            2 ->{
+                tv_option_two.background = ContextCompat.getDrawable(this, drawableView)
+            }
+            3 ->{
+                tv_option_three.background = ContextCompat.getDrawable(this, drawableView)
+            }
+            4 ->{
+                tv_option_four.background = ContextCompat.getDrawable(this, drawableView)
+            }
+        }
     }
 }
