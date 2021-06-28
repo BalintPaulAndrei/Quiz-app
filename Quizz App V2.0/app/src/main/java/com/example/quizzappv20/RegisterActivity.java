@@ -107,16 +107,25 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(this, "Reminder set for 15 seconds for now!", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(RegisterActivity.this, ReminderBroadcast.class);
+        Intent intent2 = new Intent(RegisterActivity.this, ReminderBroadcast.class);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(RegisterActivity.this, 0, intent, 0);
+        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(RegisterActivity.this, 1, intent2, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlarmManager alarmManager2 = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         long timeAtOpen = System.currentTimeMillis();
         long fifteenSecondsInMillis = 1000 * 15;
+        long aDayInMillis = 24 * 60 * 60 * 1000;
 
         alarmManager.set(AlarmManager.RTC_WAKEUP,
                 timeAtOpen + fifteenSecondsInMillis,
                 pendingIntent);
+
+        alarmManager2.set(AlarmManager.RTC_WAKEUP,
+                timeAtOpen + aDayInMillis,
+                pendingIntent2);
     }
 
     private void createNotificationChannel() {
