@@ -35,13 +35,15 @@
         android:id="@+id/startAgainBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="START AGAIN" 
-        android:layout_marginTop="100dp"/>
+        android:text="START AGAIN"
+        android:layout_marginTop="100dp"
+        android:onClick="startQuizz"/>
 
     <Button
         android:id="@+id/logOutBtn"
         android:layout_width="133dp"
         android:layout_height="wrap_content"
-        android:text="LOGOUT" />
+        android:text="LOGOUT"
+        android:onClick="logout"/>
 
 </LinearLayout>

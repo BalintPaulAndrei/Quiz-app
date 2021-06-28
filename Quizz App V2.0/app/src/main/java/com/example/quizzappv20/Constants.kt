@@ -1,6 +1,8 @@
 package com.example.quizzappv20
 
 object Constants {
+    const val CORRECT_ANSWERS: String = "cor_ans"
+
     fun getQuestions(): ArrayList<Question> {
         val questionsList = ArrayList<Question>()
 

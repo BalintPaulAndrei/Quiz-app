@@ -1,5 +1,6 @@
 package com.example.quizzappv20
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -92,7 +93,9 @@ class QuestionsActivity : AppCompatActivity(), View.OnClickListener {
                        mCurrentPosition <= mQuestionsList!!.size ->{
                            setQuestion()
                        }else ->{
-                           Toast.makeText(this, "Quiz completed!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, ResultActivity::class.java)
+                            intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers.toString())
+                            startActivity(intent)
                        }
                    }
                }else{
