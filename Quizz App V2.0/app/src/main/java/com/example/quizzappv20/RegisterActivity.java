@@ -3,7 +3,12 @@ package com.example.quizzappv20;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -29,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        setReminder();
 
         mFullName = findViewById(R.id.fullName);
         mEmail = findViewById(R.id.email);
@@ -82,7 +89,38 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
             }
         });
+    }
+
+    private void setReminder() {
+        createNotificationChannel();
+        Toast.makeText(this, "Reminder set for 15 seconds for now!", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(RegisterActivity.this, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(RegisterActivity.this, 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        long timeAtOpen = System.currentTimeMillis();
+        long fifteenSecondsInMillis = 1000 * 15;
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                timeAtOpen + fifteenSecondsInMillis,
+                pendingIntent);
+    }
+
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "QuizzAppReminderChannel";
+            String description = "Channel for Quizz App Reminder";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyMe", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

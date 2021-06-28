@@ -96,6 +96,7 @@ class QuestionsActivity : AppCompatActivity(), View.OnClickListener {
                             val intent = Intent(this, ResultActivity::class.java)
                             intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers.toString())
                             startActivity(intent)
+                            finish();
                        }
                    }
                }else{
