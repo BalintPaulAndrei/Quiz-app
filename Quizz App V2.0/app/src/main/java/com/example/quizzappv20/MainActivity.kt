@@ -17,4 +17,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish();
     }
+
+    fun startQuizz(view: View) {
+        startActivity(Intent(this, QuestionsActivity::class.java))
+        finish();
+    }
 }
