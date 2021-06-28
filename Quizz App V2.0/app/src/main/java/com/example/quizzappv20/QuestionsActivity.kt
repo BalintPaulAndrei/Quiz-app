@@ -3,12 +3,12 @@ package com.example.quizzappv20
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_questions.*
 
@@ -21,6 +21,12 @@ class QuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        supportActionBar!!.hide()
+        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
         setContentView(R.layout.activity_questions)
 
         mQuestionsList = Constants.getQuestions()
@@ -74,47 +80,48 @@ class QuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.tv_option_one ->{
+            R.id.tv_option_one -> {
                 selectedOptionView(tv_option_one, 1)
             }
-            R.id.tv_option_two ->{
+            R.id.tv_option_two -> {
                 selectedOptionView(tv_option_two, 2)
             }
-            R.id.tv_option_three ->{
+            R.id.tv_option_three -> {
                 selectedOptionView(tv_option_three, 3)
             }
-            R.id.tv_option_four ->{
+            R.id.tv_option_four -> {
                 selectedOptionView(tv_option_four, 4)
             }
-            R.id.submit_button ->{
-               if(mSelectedOptionPosition == 0) {
-                   mCurrentPosition++
-                   when{
-                       mCurrentPosition <= mQuestionsList!!.size ->{
-                           setQuestion()
-                       }else ->{
+            R.id.submit_button -> {
+                if (mSelectedOptionPosition == 0) {
+                    mCurrentPosition++
+                    when {
+                        mCurrentPosition <= mQuestionsList!!.size -> {
+                            setQuestion()
+                        }
+                        else -> {
                             val intent = Intent(this, ResultActivity::class.java)
                             intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers.toString())
                             startActivity(intent)
                             finish();
-                       }
-                   }
-               }else{
-                   val question = mQuestionsList?.get(mCurrentPosition - 1)
-                   if(question!!.optionCorrect != mSelectedOptionPosition){
-                       answerView(mSelectedOptionPosition, R.drawable.wrong_textview_button_background)
-                   }else{
-                       mCorrectAnswers++
-                   }
-                   answerView(question.optionCorrect, R.drawable.correct_textview_button_background)
+                        }
+                    }
+                } else {
+                    val question = mQuestionsList?.get(mCurrentPosition - 1)
+                    if (question!!.optionCorrect != mSelectedOptionPosition) {
+                        answerView(mSelectedOptionPosition, R.drawable.wrong_textview_button_background)
+                    } else {
+                        mCorrectAnswers++
+                    }
+                    answerView(question.optionCorrect, R.drawable.correct_textview_button_background)
 
-                   if(mCurrentPosition == mQuestionsList!!.size){
-                       submit_button.text = "FINISH QUIZ"
-                   }else{
-                       submit_button.text = "NEXT QUESTION"
-                   }
-                   mSelectedOptionPosition = 0;
-               }
+                    if (mCurrentPosition == mQuestionsList!!.size) {
+                        submit_button.text = "FINISH QUIZ"
+                    } else {
+                        submit_button.text = "NEXT QUESTION"
+                    }
+                    mSelectedOptionPosition = 0;
+                }
             }
         }
     }
@@ -131,16 +138,16 @@ class QuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun answerView(answer: Int, drawableView: Int) {
         when(answer){
-            1 ->{
+            1 -> {
                 tv_option_one.background = ContextCompat.getDrawable(this, drawableView)
             }
-            2 ->{
+            2 -> {
                 tv_option_two.background = ContextCompat.getDrawable(this, drawableView)
             }
-            3 ->{
+            3 -> {
                 tv_option_three.background = ContextCompat.getDrawable(this, drawableView)
             }
-            4 ->{
+            4 -> {
                 tv_option_four.background = ContextCompat.getDrawable(this, drawableView)
             }
         }
